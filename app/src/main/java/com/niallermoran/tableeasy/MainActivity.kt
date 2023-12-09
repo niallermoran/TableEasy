@@ -9,6 +9,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import com.niallermoran.tableeasy.ui.theme.TableEasyTheme
 
@@ -51,6 +52,82 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
         MyData(
             id=2,
             description = "This is a longer description"
+        ),
+        MyData(
+            id=3,
+            description = "This is a longer description"
+        ),
+        MyData(
+            id=4,
+            description = "This is a longer description"
+        ),
+        MyData(
+            id=5,
+            description = "This is a longer description"
+        ),
+        MyData(
+            id=2,
+            description = "This is a longer description"
+        ),
+        MyData(
+            id=3,
+            description = "This is a longer description"
+        ),
+        MyData(
+            id=4,
+            description = "This is a longer description"
+        ),
+        MyData(
+            id=5,
+            description = "This is a longer description"
+        ),
+        MyData(
+            id=2,
+            description = "This is a longer description"
+        ),
+        MyData(
+            id=3,
+            description = "This is a longer description"
+        ),
+        MyData(
+            id=4,
+            description = "This is a longer description"
+        ),
+        MyData(
+            id=5,
+            description = "This is a longer description"
+        ),
+        MyData(
+            id=2,
+            description = "This is a longer description"
+        ),
+        MyData(
+            id=3,
+            description = "This is a longer description"
+        ),
+        MyData(
+            id=4,
+            description = "This is a longer description"
+        ),
+        MyData(
+            id=5,
+            description = "This is a longer description"
+        ),
+        MyData(
+            id=2,
+            description = "This is a longer description"
+        ),
+        MyData(
+            id=3,
+            description = "This is a longer description"
+        ),
+        MyData(
+            id=4,
+            description = "This is a longer description"
+        ),
+        MyData(
+            id=5,
+            description = "This is a longer description"
         )
     )
 
@@ -64,7 +141,11 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
                 "description" -> item.description
                 else -> ""
             }
-        }
+        },
+        showGridLines = true,
+        headerBackgroundColor = Color.Cyan,
+        alternatingRowBackgroundColor = Color.LightGray,
+        rowBackgroundColor = Color.White
     )
 }
 
