@@ -6,12 +6,13 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import com.niallermoran.tableeasy.ui.theme.TableEasyTheme
+import java.util.Date
+import kotlin.random.Random
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,7 +24,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Greeting("Android")
+                    Table()
                 }
             }
         }
@@ -31,113 +32,56 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
+fun Table() {
 
     val fields = listOf(
         TableField(
-            name = "id",
-            title = "ID"
+            name = "date",
+            title = "Date"
+        ),
+        TableField(
+            name = "title",
+            title = "Title"
         ),
         TableField(
             name = "description",
             title = "Description"
         )
-    )
-
-    val data = listOf(
-        MyData(
-            id = 1,
-            description = "A short description"
-        ),
-        MyData(
-            id=2,
-            description = "This is a longer description"
-        ),
-        MyData(
-            id=3,
-            description = "This is a longer description"
-        ),
-        MyData(
-            id=4,
-            description = "This is a longer description"
-        ),
-        MyData(
-            id=5,
-            description = "This is a longer description"
-        ),
-        MyData(
-            id=2,
-            description = "This is a longer description"
-        ),
-        MyData(
-            id=3,
-            description = "This is a longer description"
-        ),
-        MyData(
-            id=4,
-            description = "This is a longer description"
-        ),
-        MyData(
-            id=5,
-            description = "This is a longer description"
-        ),
-        MyData(
-            id=2,
-            description = "This is a longer description"
-        ),
-        MyData(
-            id=3,
-            description = "This is a longer description"
-        ),
-        MyData(
-            id=4,
-            description = "This is a longer description"
-        ),
-        MyData(
-            id=5,
-            description = "This is a longer description"
-        ),
-        MyData(
-            id=2,
-            description = "This is a longer description"
-        ),
-        MyData(
-            id=3,
-            description = "This is a longer description"
-        ),
-        MyData(
-            id=4,
-            description = "This is a longer description"
-        ),
-        MyData(
-            id=5,
-            description = "This is a longer description"
-        ),
-        MyData(
-            id=2,
-            description = "This is a longer description"
-        ),
-        MyData(
-            id=3,
-            description = "This is a longer description"
-        ),
-        MyData(
-            id=4,
-            description = "This is a longer description"
-        ),
-        MyData(
-            id=5,
-            description = "This is a longer description"
+        ,
+        TableField(
+            name = "count",
+            title = "Count"
         )
     )
+    
+    val rowCount = 200
+    val data = ArrayList<MyData>(rowCount)
+    val epoch = Date().time
+    for( i in 1..rowCount)
+    {
+        val randomDayCount = Random.nextLong(86400000, 8640000010)
+        val randomCount = Random.nextInt(10, 200)
+        val date = Date(epoch - randomDayCount)
+        val title = "Title for $date"
+        val description = "Description $date"
+
+
+        data.add( MyData(
+            date = date,
+            count = randomCount,
+            title = title,
+            description = description
+        ))
+    }
 
     Table<MyData>(
-        fields= fields,
+        fields = fields,
         data = data,
         onCellFormat = { item, field ->
-            when(field.name)
-            {
-                "id" -> item.id.toString()
+            when (field.name) {
+                "date" -> item.date.toString()
+                "count" -> item.count.toString()
+                "title" -> item.title
                 "description" -> item.description
                 else -> ""
             }
@@ -153,8 +97,8 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
 @Composable
 fun GreetingPreview() {
     TableEasyTheme {
-        Greeting("Android")
+        Table()
     }
 }
 
-data class MyData(val id:Int, val description: String)
+data class MyData(val date: Date, val title:String, val description: String, val count:Int)

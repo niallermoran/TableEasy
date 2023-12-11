@@ -3,7 +3,6 @@ package com.niallermoran.tableeasy
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -39,12 +38,20 @@ fun <T> Table(
     fields: List<TableField>,
     data: List<T>,
     tableCellPadding: PaddingValues = PaddingValues(12.dp),
-    showGridLines:Boolean = true,
+    showGridLines: Boolean = true,
     headerBackgroundColor: Color = Color.LightGray,
     rowBackgroundColor: Color = Color.White,
     alternatingRowBackgroundColor: Color = Color.LightGray,
-    headerTextStyle: TextStyle = TextStyle(fontWeight = FontWeight.Bold, fontSize = 14.sp, textAlign = TextAlign.Left),
-    cellTextStyle: TextStyle = TextStyle(fontWeight = FontWeight.Normal, fontSize = 14.sp, textAlign = TextAlign.Left),
+    headerTextStyle: TextStyle = TextStyle(
+        fontWeight = FontWeight.Bold,
+        fontSize = 14.sp,
+        textAlign = TextAlign.Left
+    ),
+    cellTextStyle: TextStyle = TextStyle(
+        fontWeight = FontWeight.Normal,
+        fontSize = 14.sp,
+        textAlign = TextAlign.Left
+    ),
     onCellFormat: (item: T, field: TableField) -> String
 ) {
 
@@ -55,7 +62,15 @@ fun <T> Table(
     val columnWidths = Hashtable<String, Dp>()
     fields.forEach { field ->
 
-        columnWidths[field.name] = with(density){ textMeasurer.measure(text = field.title, style = headerTextStyle, overflow = TextOverflow.Visible, maxLines = 1).size.width.toDp().plus(tableCellPadding.calculateLeftPadding(LayoutDirection.Ltr)).plus(tableCellPadding.calculateEndPadding(LayoutDirection.Ltr)).plus(10.dp)}
+        columnWidths[field.name] = with(density) {
+            textMeasurer.measure(
+                text = field.title,
+                style = headerTextStyle,
+                overflow = TextOverflow.Visible,
+                maxLines = 1
+            ).size.width.toDp().plus(tableCellPadding.calculateLeftPadding(LayoutDirection.Ltr))
+                .plus(tableCellPadding.calculateEndPadding(LayoutDirection.Ltr)).plus(10.dp)
+        }
 
         data.forEach { item ->
 
@@ -63,7 +78,15 @@ fun <T> Table(
             val text = onCellFormat(item, field)
 
             // measure text
-            val width = with(density){ textMeasurer.measure(text = text,  style = cellTextStyle, overflow = TextOverflow.Visible, maxLines = 1).size.width.toDp().plus(tableCellPadding.calculateLeftPadding(LayoutDirection.Ltr)).plus(tableCellPadding.calculateEndPadding(LayoutDirection.Ltr).plus(10.dp)) }
+            val width = with(density) {
+                textMeasurer.measure(
+                    text = text,
+                    style = cellTextStyle,
+                    overflow = TextOverflow.Visible,
+                    maxLines = 1
+                ).size.width.toDp().plus(tableCellPadding.calculateLeftPadding(LayoutDirection.Ltr))
+                    .plus(tableCellPadding.calculateEndPadding(LayoutDirection.Ltr).plus(10.dp))
+            }
 
             val maxWidth = columnWidths[field.name]
             if (maxWidth == null || width > maxWidth)
@@ -71,10 +94,6 @@ fun <T> Table(
 
         }
     }
-
-    BoxWithConstraints {
-
-        val width = with(density){ constraints.maxWidth.toDp()}
 
         LazyRow()
         {
@@ -105,25 +124,26 @@ fun <T> Table(
                                     background = headerBackgroundColor
                                 )
 
-                                if(showGridLines)
-                                Divider(
-                                    color = Color.LightGray,
-                                    modifier = Modifier
-                                        .fillMaxHeight()
-                                        .width(1.dp)
-                                )
+                                if (showGridLines)
+                                    Divider(
+                                        color = Color.LightGray,
+                                        modifier = Modifier
+                                            .fillMaxHeight()
+                                            .width(1.dp)
+                                    )
 
                             }
 
                         }
 
-                        if(showGridLines)
-                        Divider(
-                            color = Color.LightGray,
-                            modifier = Modifier
-                                .height(1.dp)
-                                .width(width)
-                        )
+                        if (showGridLines) {
+                            Divider(
+                                color = Color.LightGray,
+                                modifier = Modifier
+                                    .height(1.dp)
+                                    .fillMaxWidth()
+                            )
+                        }
                     }
 
                     itemsIndexed(items = data)
@@ -143,32 +163,33 @@ fun <T> Table(
                                     textStyle = cellTextStyle,
                                     width = width,
                                     alignment = TextAlign.Left,
-                                    background = if( index % 2 == 0 ) rowBackgroundColor else alternatingRowBackgroundColor
+                                    background = if (index % 2 == 0) rowBackgroundColor else alternatingRowBackgroundColor
                                 )
 
-                                if(showGridLines)
-                                Divider(
-                                    color = Color.LightGray,
-                                    modifier = Modifier
-                                        .fillMaxHeight()
-                                        .width(1.dp)
-                                )
+                                if (showGridLines)
+                                    Divider(
+                                        color = Color.LightGray,
+                                        modifier = Modifier
+                                            .fillMaxHeight()
+                                            .width(1.dp)
+                                    )
                             }
                         }
 
-                        if(showGridLines)
-                        Divider(
-                            color = Color.LightGray,
-                            modifier = Modifier
-                                .height(1.dp)
-                                .width(width)
-                        )
+                        if (showGridLines) {
+                            Divider(
+                                color = Color.LightGray,
+                                modifier = Modifier
+                                    .height(1.dp)
+                                    .fillMaxWidth()
+                            )
+                        }
                     }
 
                 }
             }
         }
-    }
+
 }
 
 @Composable
@@ -178,10 +199,12 @@ private fun TableCell(
     alignment: TextAlign = TextAlign.Center,
     width: Dp?,
     textStyle: TextStyle,
-    background:Color
+    background: Color
 ) {
 
-    Box(modifier = Modifier.width(width ?: 300.dp).background(background)) {
+    Box(modifier = Modifier
+        .width(width ?: 300.dp)
+        .background(background)) {
 
         Text(
             text = text,
@@ -201,15 +224,17 @@ private fun HeaderCell(
     alignment: TextAlign = TextAlign.Center,
     width: Dp? = 300.dp,
     textStyle: TextStyle,
-    background:Color
+    background: Color
 ) {
-    Box(modifier = Modifier.width(width?:300.dp).background(background)) {
+    Box(modifier = Modifier
+        .width(width ?: 300.dp)
+        .background(background)) {
         Text(
             text = text,
             modifier = Modifier.padding(padding),
             textAlign = alignment,
             fontWeight = FontWeight.Bold,
-                    maxLines = 1,
+            maxLines = 1,
             overflow = TextOverflow.Visible,
             style = textStyle
         )
